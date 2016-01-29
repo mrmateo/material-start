@@ -1,39 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" >
-  <head>
-    <title>Angular Material - Starter App</title>
+<html lang="en">
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<head>
+  <title>Datachamps - Campus Explorer</title>
 
-    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
-    <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css"/>
-    <link rel="stylesheet" href="assets/app.css"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <style type="text/css">
-        /**
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+  <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="assets/app.css" />
+
+  <style type="text/css">
+    /**
          * Hide when Angular is not yet loaded and initialized
          */
-        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-          display: none !important;
-        }
-    </style>
 
-  </head>
+    [ng\:cloak],
+    [ng-cloak],
+    [data-ng-cloak],
+    [x-ng-cloak],
+    .ng-cloak,
+    .x-ng-cloak {
+      display: none !important;
+    }
+  </style>
 
-  <body ng-app="starterApp" layout="row" ng-controller="UserController as ul" ng-cloak >
+</head>
 
-  <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
-      md-component-id="left"
-      ng-click="ul.toggleList()" aria-label="Show User List"
-      md-is-locked-open="$mdMedia('gt-sm')">
+<body ng-app="starterApp" layout="row" ng-controller="UserController as ul" ng-cloak>
+
+  <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2" md-component-id="left" ng-click="ul.toggleList()" aria-label="Show User List" md-is-locked-open="$mdMedia('gt-sm')">
 
     <md-toolbar class="md-whiteframe-z1">
-      <h3>Users</h3>
+      <h3>Search</h3>
     </md-toolbar>
 
+    <!--
     <md-list>
       <md-list-item ng-repeat="it in ul.users">
           <md-button ng-click="ul.selectUser(it)" ng-class="{'selected' : it === ul.selected }">
@@ -42,6 +47,63 @@
           </md-button>
       </md-list-item>
     </md-list>
+-->
+    <form name="projectForm">
+      <md-input-container class="md-block">
+        <label>First Name</label>
+        <input required name="firstName" ng-model="project.firstName">
+        <div ng-messages="projectForm.firstName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Last Name</label>
+        <input required name="lastName" ng-model="project.lastName">
+        <div ng-messages="projectForm.lastName.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Address</label>
+        <input required name="address" ng-model="project.address">
+        <div ng-messages="projectForm.address.$error">
+          <div ng-message="required">This is required.</div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Zip Code</label>
+        <input name="postalCode" ng-model="user.postalCode" placeholder="12345" required ng-pattern="/^[0-9]{5}$/" md-maxlength="5">
+        <div ng-messages="projectForm.postalCode.$error" role="alert" multiple>
+          <div ng-message="required" class="my-message">You must supply a postal code.</div>
+          <div ng-message="pattern" class="my-message">That doesn't look like a valid postal code.
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block" flex-gt-sm>
+          <label>Phone Number</label>
+          <input name="phone" ng-model="user.phone" ng-pattern="/^([0-9]{3}) [0-9]{3}-[0-9]{4}$/" />
+          <div ng-messages="projectForm.phone.$error">
+            <div ng-message="pattern">(###) ###-#### - Please enter a valid phone number.</div>
+          </div>
+        </md-input-container>
+      <md-input-container class="md-block">
+        <label>Email Address</label>
+        <input required type="email" name="clientEmail" ng-model="project.clientEmail" minlength="10" maxlength="100" ng-pattern="/^.+@.+\..+$/" />
+        <div ng-messages="projectForm.clientEmail.$error" role="alert">
+          <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+            Your email must be between 10 and 100 characters long and look like an e-mail address.
+          </div>
+        </div>
+      </md-input-container>
+      <md-input-container class="md-block">
+        <label>Graduation Year</label>
+        <input required name="gradYear" ng-model="project.gradYear" required ng-pattern="/^[0-9]{4}$/">
+        <div ng-messages="projectForm.gradYear.$error">
+          <div ng-message="pattern">#### - Must be 4 digits long.</div>
+        </div>
+      </md-input-container>
+    </form>
+
 
   </md-sidenav>
 
@@ -50,55 +112,69 @@
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
       <md-button id="main" class="menu" hide-gt-sm ng-click="ul.toggleList()" aria-label="Show User List">
-        <md-icon md-svg-icon="menu" ></md-icon>
+        <md-icon md-svg-icon="menu"></md-icon>
       </md-button>
-      <h3>Angular Material - Starter App</h3>
+      <h3>Datachamp Campus Explorer</h3>
     </md-toolbar>
 
     <md-content flex id="content">
-        <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
-        <h2>{{ul.selected.name}}</h2>
-        <p>{{ul.selected.content}}</p>
+      <md-icon md-svg-icon="{{ul.selected.avatar}}" class="avatar"></md-icon>
+      <h2></h2>
+      <p>{{ul.selected.content}}</p>
 
-        <md-button class="contact" md-no-ink ng-click="ul.makeContact(ul.selected)" aria-label="Share with {{ ul.selected.name }}">
-          <md-tooltip>Contact {{ ul.selected.name }}</md-tooltip>
-          <md-icon md-svg-icon="share"></md-icon>
-        </md-button>
-      </md-content>
+      <md-button class="contact" md-no-ink ng-click="ul.makeContact(ul.selected)" aria-label="Share with {{ ul.selected.name }}">
+        <md-tooltip>Contact {{ ul.selected.name }}</md-tooltip>
+        <md-icon md-svg-icon="share"></md-icon>
+      </md-button>
+      <md-card>
+        <img ng-src="https://avatars0.githubusercontent.com/u/4419150?v=3&s=460" class="md-card-image" alt="Washed Out">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{ul.selected.name}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+          {{ul.selected.content}}
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Action 1</md-button>
+          <md-button>Action 2</md-button>
+        </md-card-actions>
+      </md-card>
+    </md-content>
 
   </div>
 
-    <script src="./bower_components/angular/angular.js"></script>
-    <script src="./bower_components/angular-animate/angular-animate.js"></script>
-    <script src="./bower_components/angular-aria/angular-aria.js"></script>
-    <script type="text/javascript" src="./bower_components/angular-material/angular-material.js"></script>
+  <script src="./bower_components/angular/angular.js"></script>
+  <script src="./bower_components/angular-animate/angular-animate.js"></script>
+  <script src="./bower_components/angular-aria/angular-aria.js"></script>
+  <script type="text/javascript" src="./bower_components/angular-material/angular-material.js"></script>
 
-    <script src="./src/users/Users.js"></script>
-    <script src="./src/users/UserController.js"></script>
-    <script src="./src/users/UserService.js"></script>
+  <script src="./src/users/Users.js"></script>
+  <script src="./src/users/UserController.js"></script>
+  <script src="./src/users/UserService.js"></script>
 
-    <script type="text/javascript">
+  <script type="text/javascript">
+    angular
+      .module('starterApp', ['ngMaterial', 'users'])
+      .config(function($mdThemingProvider, $mdIconProvider) {
 
-          angular
-              .module('starterApp', ['ngMaterial', 'users'])
-              .config(function($mdThemingProvider, $mdIconProvider){
+        $mdIconProvider
+          .defaultIconSet("./assets/svg/avatars.svg", 128)
+          .icon("menu", "./assets/svg/menu.svg", 24)
+          .icon("share", "./assets/svg/share.svg", 24)
+          .icon("google_plus", "./assets/svg/google_plus.svg", 512)
+          .icon("hangouts", "./assets/svg/hangouts.svg", 512)
+          .icon("twitter", "./assets/svg/twitter.svg", 512)
+          .icon("phone", "./assets/svg/phone.svg", 512);
 
-                  $mdIconProvider
-                      .defaultIconSet("./assets/svg/avatars.svg", 128)
-                      .icon("menu"       , "./assets/svg/menu.svg"        , 24)
-                      .icon("share"      , "./assets/svg/share.svg"       , 24)
-                      .icon("google_plus", "./assets/svg/google_plus.svg" , 512)
-                      .icon("hangouts"   , "./assets/svg/hangouts.svg"    , 512)
-                      .icon("twitter"    , "./assets/svg/twitter.svg"     , 512)
-                      .icon("phone"      , "./assets/svg/phone.svg"       , 512);
+        $mdThemingProvider.theme('default')
+          .primaryPalette('brown')
+          .accentPalette('red');
 
-                      $mdThemingProvider.theme('default')
-                          .primaryPalette('brown')
-                          .accentPalette('red');
+      });
+  </script>
 
-              });
+</body>
 
-    </script>
-
-  </body>
 </html>
